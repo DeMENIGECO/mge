@@ -64,17 +64,18 @@ cursor:pointer;
 
 let domanda = 0
 let punti = 0
+let fase = "domanda"
 
 const domande = [
 
 {
 q:"Come erano divisi?",
-a:["non erano divisi","In alto e basso Egitto","In egitto famoso e povero"],
+a:["Non erano divisi","In Alto e Basso Egitto","In Egitto famoso e povero"],
 c:1
 },
 
 {
-q:"Chi unifico le corone?",
+q:"Chi unificò le corone?",
 a:["Tutankhamon","Gli scribi","Re Narmer"],
 c:2
 },
@@ -86,8 +87,8 @@ c:1
 },
 
 {
-q:"Che facevano nel culto dei morti nelle classi sociali importanti?",
-a:["Imbalsavano, mummificavano e mettevano gli organi nei vasi canopi","Li mettevano nel cimitero ","Lo seppelivano normalemnte"],
+q:"Cosa facevano nel culto dei morti nelle classi sociali importanti?",
+a:["Imbalsavano, mummificavano e mettevano gli organi nei vasi canopi","Li mettevano nel cimitero","Li seppellivano normalmente"],
 c:0
 },
 
@@ -100,6 +101,7 @@ c:0
 ]
 
 function mostra(){
+
 let q = domande[domanda]
 
 let html = "<h2>"+q.q+"</h2>"
@@ -121,21 +123,48 @@ document.getElementById("bar").style.width = progresso+"%"
 
 function next(){
 
-let scelta = document.querySelector("input[name=r]:checked")
-
-if(!scelta) return
-
-if(Number(scelta.value) === domande[domanda].c){
-punti++
-}
+if(fase === "risposta"){
 
 domanda++
 
 if(domanda >= domande.length){
 fine()
 }else{
+fase = "domanda"
 mostra()
 }
+
+return
+}
+
+let scelta = document.querySelector("input[name=r]:checked")
+
+if(!scelta) return
+
+let sceltaUtente = Number(scelta.value)
+let corretta = domande[domanda].c
+let q = domande[domanda]
+
+if(sceltaUtente === corretta){
+
+punti++
+
+document.getElementById("quiz").innerHTML = `
+<h2>✅ Corretto!</h2>
+<p>La risposta era: <b>${q.a[corretta]}</b></p>
+`
+
+}else{
+
+document.getElementById("quiz").innerHTML = `
+<h2>❌ Sbagliato!</h2>
+<p>La risposta giusta era:</p>
+<b>${q.a[corretta]}</b>
+`
+
+}
+
+fase = "risposta"
 
 }
 
