@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Accedi</title>
+<style>
+body { font-family: Arial; margin:0; padding:0; }
+header { background:#4CAF50; color:white; padding:15px; text-align:center; font-size:18px; }
+header a { color:white; text-decoration:none; margin-left:20px; }
+.container { padding:20px; }
+.post { border:1px solid #ccc; padding:10px; margin:10px 0; cursor:pointer; }
+button { padding:5px 10px; margin-left:10px; }
+</style>
+</head>
+<body>
+
+<header id="topBar" style="display:none;">
+  <span>A cosa pensi? <a href="ChChannel.datas/post/">Postalo!</a></span>
+  <span id="usernameDisplay"></span>
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<div class="container" id="mainContainer">
+  <div id="loginSection">
+    <h2>Accedi con Username</h2>
+    <input type="text" id="loginInput" placeholder="Inserisci username">
+    <button id="loginBtn" onclick="window.location.href='https://demenigeco.github.io/mge'">Accedi</button>
+    <button id="loginBtn" onclick="window.location.href='https://demenigeco.github.io/mge/auth/newuser'">Registrati</button>
+  </div>
+
+
+</body>
+</html>
