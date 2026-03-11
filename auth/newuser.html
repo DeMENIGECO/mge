@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Registrazione MGE</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        text-align: center;
+        padding: 50px;
+    }
+    .section {
+        display: none;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: auto;
+        max-width: 400px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .section.active {
+        display: block;
+    }
+    input, button {
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+    button {
+        cursor: pointer;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<!-- STEP 1: Registrazione -->
+<div id="step1" class="section active">
+    <h1>Registrati a MGE</h1>
+    <p>Sicronizza una vasta gamma di contenuti digitali del tuo libro Maestra Giovanna Editori.</p>
+    <h3>Consento a MGE di usare il mio username e Password</h3>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="step1Next()">Continua registrazione</button>
+</div>
+
+<!-- STEP 2: Verifica età -->
+<div id="step2" class="section">
+    <h1>Verifica la tua età</h1>
+    <p>In base alla tua età potremmo personalizzare i contenuti</p>
+    <input type="date" id="birthdate">
+    <button onclick="step2Next()">Verifica</button>
+    <p id="ageMessage"></p>
+</div>
+
+<!-- STEP 3: Conferma account -->
+<div id="step3" class="section">
+    <h1>Conferma account</h1>
+    <p>Metti nel campo di testo questo codice: <strong id="code">ABCD-1234-EFGH-5678</strong></p>
+    <small>I copia-incolla sono vietati nella sezione</small>
+    <input type="text" id="codeInput" placeholder="Inserisci codice">
+    <button onclick="finishRegistration()">Registrati</button>
+</div>
+
+<script>
+function step1Next() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    if(username && password){
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+    } else {
+        alert("Inserisci username e password");
+    }
+}
+
+function step2Next() {
+    const birthdate = document.getElementById('birthdate').value;
+    if(!birthdate){
+        alert("Inserisci la tua data di nascita");
+        return;
+    }
+    const birth = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    document.getElementById('ageMessage').innerText = `Hai ${age} anni. Sei nella nostra fascia d'età ${age<12?'bambini':age<18?'ragazzi':'adulti'}`;
+    
+    setTimeout(() => {
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step3').classList.add('active');
+    }, 1500);
+}
+
+function finishRegistration() {
+    const codeInput = document.getElementById('codeInput').value;
+    const code = document.getElementById('code').innerText;
+    if(codeInput === code){
+        alert("Registrazione completata! Benvenuto!");
+        window.location.href = "https://demenigeco.github.io/mge/"; // qui metti il link alla tua homepage
+    } else {
+        alert("Codice errato");
+    }
+}
+</script>
+
+</body>
+</html>
