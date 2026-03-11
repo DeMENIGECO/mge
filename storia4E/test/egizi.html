@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Quiz sugli Egizi</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f5e6b3;
+text-align:center;
+}
+
+.quiz{
+background:white;
+width:500px;
+margin:auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+.progress{
+width:100%;
+background:#ddd;
+height:20px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:20px;
+width:0%;
+background:#4caf50;
+border-radius:10px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin-top:15px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Quiz sugli Antichi Egizi</h1>
+
+<div class="quiz">
+
+<div class="progress">
+<div class="progress-bar" id="bar"></div>
+</div>
+
+<div id="quiz"></div>
+
+<button onclick="next()">Avanti</button>
+
+</div>
+
+<script>
+
+let domanda = 0
+let punti = 0
+
+const domande = [
+
+{
+q:"Come erano divisi?",
+a:["non erano divisi","In alto e basso Egitto","In egitto famoso e povero"],
+c:1
+},
+
+{
+q:"Chi unifico le corone?",
+a:["Tutankhamon","Gli scribi","Re Narmer"],
+c:2
+},
+
+{
+q:"Quando raggiunse la massima potenza?",
+a:["Nei castelli","Nel Medio Regno","Nel 2026 d.C"],
+c:1
+},
+
+{
+q:"Che facevano nel culto dei morti nelle classi sociali importanti?",
+a:["Imbalsavano, mummificavano e mettevano gli organi nei vasi canopi","Li mettevano nel cimitero ","Lo seppelivano normalemnte"],
+c:0
+},
+
+{
+q:"In cosa erano avanzati?",
+a:["In medicina, geometria e capacità di calcolo","Solo geometria","Non sapevano niente"],
+c:0
+}
+
+]
+
+function mostra(){
+let q = domande[domanda]
+
+let html = "<h2>"+q.q+"</h2>"
+
+for(let i=0;i<q.a.length;i++){
+html += `
+<label>
+<input type="radio" name="r" value="${i}">
+${q.a[i]}
+</label><br>
+`
+}
+
+document.getElementById("quiz").innerHTML = html
+
+let progresso = (domanda/domande.length)*100
+document.getElementById("bar").style.width = progresso+"%"
+}
+
+function next(){
+
+let scelta = document.querySelector("input[name=r]:checked")
+
+if(!scelta) return
+
+if(Number(scelta.value) === domande[domanda].c){
+punti++
+}
+
+domanda++
+
+if(domanda >= domande.length){
+fine()
+}else{
+mostra()
+}
+
+}
+
+function fine(){
+
+document.getElementById("bar").style.width = "100%"
+
+let testo = ""
+
+if(punti == 5){
+testo = "10 e lode!"
+}
+else if(punti == 4){
+testo = "Sei molto bravo!"
+}
+else if(punti == 3){
+testo = "Sei bravo!"
+}
+else if(punti == 2){
+testo = "Potresti migliorare"
+}
+else if(punti == 1){
+testo = "Ripassa"
+}
+else{
+testo = "Non lo sai"
+}
+
+document.getElementById("quiz").innerHTML = `
+<h2>Quiz finito!</h2>
+<p>Hai fatto ${punti} punti su ${domande.length}</p>
+<h3>${testo}</h3>
+`
+
+}
+
+mostra()
+
+</script>
+
+</body>
+</html>
